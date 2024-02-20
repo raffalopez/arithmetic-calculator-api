@@ -5,8 +5,10 @@ import { setupModels } from '../db/models/index';
 
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
+const ENVIRONMENT: string = config.env;
 
-const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+let URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+URI = ENVIRONMENT === 'production' ? `${URI}?sslmode=require`: URI;
 
 const sequelize = new Sequelize(URI, { dialect: 'postgres', logging: true });
 

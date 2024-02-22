@@ -1,6 +1,6 @@
 import boom from '@hapi/boom';
 
-import squareRoot from './square_root';
+import squareRoot from '../utils/arithmetic/square_root';
 
 describe('squareRoot function test', () => {
   test('should return 9, when taking the square root of 81', () => {

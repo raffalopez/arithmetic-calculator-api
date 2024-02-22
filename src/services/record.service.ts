@@ -2,15 +2,6 @@ import boom from '@hapi/boom';
 
 import { models } from '../lib/sequelize';
 
-export interface IRecord {
-  operationId: string;
-  userId: string;
-  amount: number;
-  userBalance: number;
-  operationResponse: number;
-  date: Date;
-}
-
 class RecordService {
   constructor() {}
 

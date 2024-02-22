@@ -1,6 +1,6 @@
 import boom from '@hapi/boom';
 
-import division from './division';
+import division from '../utils/arithmetic/division';
 
 describe('division function test', () => {
   test('should return 20, when divided by 40, 2', () => {

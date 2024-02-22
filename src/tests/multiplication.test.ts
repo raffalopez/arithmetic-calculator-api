@@ -1,4 +1,4 @@
-import multiplication from './multiplication';
+import multiplication from '../utils/arithmetic/multiplication';
 
 describe('multiplication function test', () => {
   test('should return 40, when multiplying by 20, 2', () => {

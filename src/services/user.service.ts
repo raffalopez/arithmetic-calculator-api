@@ -1,21 +1,37 @@
 import bcrypt from 'bcrypt';
 import boom from '@hapi/boom';
 
-import { models } from '../lib/sequelize';
+import { models, sequelize } from '../lib/sequelize';
+import RecordService from '../services/record.service';
+import { IData } from '../interfaces/data';
+import { IRecord } from '../interfaces/record';
 
-interface IData {
-  password: string;
-  email: string;
-  isActive: boolean;
-}
+const recordService = new RecordService();
+
 class UserService {
   constructor() {}
 
   async create(data: IData) {
-    const hash: string = await bcrypt.hash(data.password, 10);
-    const newUser = await models.User.create({ ...data, password: hash });
-    delete newUser.dataValues.password;
-    return newUser;
+    try {
+      const result = await sequelize.transaction(async () => {
+        const hash: string = await bcrypt.hash(data.password, 10);
+        const newUser = await models.User.create({ ...data, password: hash });
+        delete newUser.dataValues.password;
+
+        const newRecord: IRecord = {
+          userId: newUser.dataValues.id,
+          amount: newUser.dataValues.amount,
+          userBalance: newUser.dataValues.amount,
+        };
+
+        await recordService.create(newRecord);
+
+        return newUser;
+      });
+      return result;
+    } catch (error) {
+      throw boom.internal('Create user failed: ' + error);
+    }
   }
 
   async find(query: any) {

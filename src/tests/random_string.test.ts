@@ -1,4 +1,4 @@
-import randomString from './random_string';
+import randomString from '../utils/arithmetic/random_string';
 
 describe('randomString function test', () => {
   test('should return a random string', async () => {

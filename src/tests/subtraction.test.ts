@@ -1,4 +1,4 @@
-import subtraction from './subtraction';
+import subtraction from '../utils/arithmetic/subtraction';
 
 describe('subtraction function test', () => {
   test('should return 10, subtracting 20, 10', () => {

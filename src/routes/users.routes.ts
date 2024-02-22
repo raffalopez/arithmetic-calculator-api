@@ -8,17 +8,10 @@ import {
   queryUserSchema,
   updateAmount,
 } from '../schemas/user.schema';
-import RecordService from '../services/record.service';
 
 const router = express.Router();
 const service = new UserService();
-const recordService = new RecordService();
 
-export interface IRecord {
-  userId: string;
-  amount: number;
-  userBalance: number;
-}
 router.get(
   '/',
   validatorHandler(queryUserSchema, 'query'),
@@ -39,15 +32,6 @@ router.post(
     try {
       const body = req.body;
       const user = await service.create(body);
-
-      const newRecord: IRecord = {
-        userId: user.dataValues.id,
-        amount: user.dataValues.amount,
-        userBalance: user.dataValues.amount,
-      };
-
-      await recordService.create(newRecord);
-
       res.status(201).json(user);
     } catch (error) {
       next(error);

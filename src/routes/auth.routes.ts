@@ -6,11 +6,8 @@ import AuthService from '../services/auth.service';
 import validatorHandler from '../middleware/validator.handler';
 import { login } from '../schemas/auth.schema';
 import { authRefreshToken } from '../middleware/auth';
-import config from '../config/config';
-import UserService from '../services/user.service';
 
 const service = new AuthService();
-const userService = new UserService();
 
 const router = express.Router();
 interface Error {
@@ -49,13 +46,8 @@ router.get(
         next(boom.unauthorized());
       }
 
-      const userData: any = service.verify(
-        refreshToken,
-        config.secretRefreshToken,
-      );
-      const user = await userService.findByEmail(userData?.email);
+      const { user, token } = await service.refreshUserToken(refreshToken);
 
-      const { token } = service.signToken(userData);
       res.json({
         user,
         token,

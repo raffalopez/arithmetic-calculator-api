@@ -1,4 +1,4 @@
-import addition from './addition';
+import addition from '../utils/arithmetic/addition';
 
 describe('addition function test', () => {
   test('should return 30, when 10, 20 are added', () => {
